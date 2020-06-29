@@ -1,0 +1,238 @@
+% Dr. Siegel Laboratory - ECH 145B Laboratory Sample Report
+% Created by Thomas To
+% June 7, 2020
+% Sample Code: https://www.overleaf.com/project/5edba0fd552f0c0001e6eb96
+% Reference: https://ras.papercept.net/conferences/support/files/IEEEtran_HOWTO.pdf
+% Supplementary Resources: 
+% https://www.latex-tutorial.com/tutorials/figures/
+% https://www1.cmc.edu/pages/faculty/aaksoy/latex/latexfive.html#
+% https://www.overleaf.com/learn/latex/headers_and_footers
+% https://en.wikibooks.org/wiki/LaTeX/Floats,_Figures_and_Captions
+% Consider File Calling for Formatting:
+\documentclass[peerreview, a4paper, 12pt]{IEEEtran}
+\usepackage[english]{babel}
+\usepackage{cite} % Tidies up citation numbers.
+\usepackage{url} % Provides better formatting of URLs.
+\usepackage[utf8]{inputenc} 
+\usepackage{booktabs} % Allows the use of \toprule, \midrule and \bottomrule in tables for horizontal lines
+\usepackage{graphicx}
+\usepackage{times} 
+\usepackage[legalpaper, portrait, margin=1in]{geometry}
+\usepackage[tableposition=top]{caption}
+\usepackage{subfig}
+\usepackage{gensymb}
+\usepackage{tabularx}
+\usepackage{tabu}
+\usepackage{nomencl}
+\usepackage{afterpage}
+\usepackage{setspace}
+\setstretch{1.25}
+% To use nomencl:
+% in Terminal, cd directory until file location,
+% makeindex \filename.nlo -s nomencl.ist -o \filename.nls
+% makeindex \replicatingECH145AReport.nlo -s nomencl.ist -o \replicatingECH145AReport.nls;  Run everytime I update nomenclature page
+\makenomenclature
+\font\titleFontSize=cmr12 at 20pt
+\title{{\titleFontSize Analyzing the Effects of Feed Concentrations, Reflux Ratio and Proposing Optimizing Conditions for an Eight Stage Distillation Column}}
+\author{Thomas To \textsuperscript{1,2} \thanks{1. Department of Chemical Engineering, Univeristy of California, Davis, 1 Shields Ave, Davis, CA 95616, USA}\\ \thanks{2. Genome Center, University of California, Davis, California, United States of America}}
+\begin{document}
+\maketitle  
+
+\begin{abstract}
+Accurate measurements of alcohol by volume for an ethanol-water mixture is an important practice in regulating the taxation of alcoholic beverages in the United States. Historically, the concentrations of alcohol were determined using hydrometers. Today, contemporary methods allow for the use of numerical methods to determine alcohol content. For industrial scale operation, the enrichment of alcohol in an ethanol-water solution can be done using a distillation column under continuous steady state operation. The optimization of distillation for a simple binary mixture can be done with the McCabe Thiele method under the assumptions of constant molal overflow and vapor-liquid equilibrium throughout the distillation apparatus. Previously, two sets of conditions for operating the distillation column for an unknown ethanol-water mixture of 10-15\% (v/v) have established by the laboratory support staff. To contribute to the laboratory support staff’s efforts in achieving optimal conditions for the eight-stage reactor, the resulting McCabe Thiele plots from the predetermined conditions were analyzed. The effects of feed composition variability for the experimentally determined degree of separation suggests the upper bound of an 10-15\% (v/v) can be increased up to 20-30\% without changing the tray efficiency. The analysis of these regions of same tray efficiencies allows for further analysis of the degree of separation as well as cross checking the reflux ratio effects for these regions to establish sets of conditions for tray efficiencies of 100\% for any column apparatus. 
+\end{abstract}
+\clearpage
+
+\tableofcontents
+
+\section{Introduction}
+\subsection{\textbf{Background}}
+Binary fractional distillation is a method of separating two liquid components that can be done via a distillation column in which the number of trays, or stages, sequentially enriches the vapor phase of the binary mixture with the more volatile component. By analyzing Figure 1(a), at constant pressures, the volatile component of a binary mixture in a continuous distillation column with n-th number of trays represents the number of stepwise compositional changes approaching a liquid mol fraction of 0. This represents a vapor phase enriched in the volatile component that may be condensed and processed as an enriched distillate of the volatile component. This can be seen in Figure 1(b). The use of a continuous fractional distillation unit is important in industrial separation of ethanol and water mixtures to enrich higher concentrations of ethanol. Legal convention of measuring the concentrations of ethanol in a ethanol-water mixture is based on volumetric measurements called: Tralle, proof, UK Proof or ABV. See Table 1 below for a description of each volumetric measurement. Measuring the amount of alcohol in a water–ethanol mixture is necessary for the regulation of taxation. The accuracy in gauging alcohol content is essential for regulatory and tax compliance. Historically, hydrometers were used to measure the density of simple mixtures of ethanol-water solutions; relative to the specific gravity of water in a vacuum. Today, we use standardized hydrometer gauging tables for true proof and apparent proof from the Alcohol and Tobacco Tax and Trade Bureau (TTB), a branch of the US Department of the Treasury, created in 2003. However, the use of these tables requires the experimenter to note the density and temperature relationship: firstly, from the fluid density changes with temperature and secondly, the hydrometer’s volume expansion of glass which inherently changes density with temperature.  Since the legalization of industrially producing ethanol to the market, more publication and research on accurately measuring ethanol in mixtures have been improved to greater accuracies.
+
+\begin{figure*}[]
+% Reference https://tex.stackexchange.com/questions/53320/placement-of-graphics-in-a-triangular-orientation
+\centering
+\subfloat[\paperwidth][]{\includegraphics[]{ReplicatingReport/Picture3.png}\label{fig:a}}\hspace{1em}
+\subfloat[\paperwidth][]{\includegraphics[]{ReplicatingReport/Picture1.png}\label{fig:b}}
+\subfloat[\paperwidth][]{\includegraphics[]{ReplicatingReport/Picture2.png}\label{fig:c}}
+\caption{\textbf{(a)} idealized binary mixture with three (3) sequential stepwise separation stages from heating in distillation column at constant pressure; \textbf{(b)} idealized binary mixture with three (3) sequential stepwise separation stages from cooling in the condenser at constant pressure; \textbf{(c)} Generic tray in distillation column representing the rate of vaporization and rate of condensation by mole and by heat conservation at steady and non-steady state conditions.}
+\label{fig1}
+\end{figure*}
+
+\subsection{{\textbf{Theory}}}
+The McCabe Thiele method is a way to calculate the number of theoretical trays a distillation column must have to approximate the degree of separation for the binary mixture; this method takes into account a reboiler as a stage in the (stepwise) distillation process. To determine the number of theoretical plates needed for separation, a number of assumptions and conditions must be met. Conditions such as: feed temperature, feed density, distillate composition, waste composition and the reflux ratio may be experimental determined. However, the following assumptions must be made to the experimental design: firstly, the rate at which vaporization occurs per mole of liquid must be approximately the same rate of condensation per mole of vapor and vice versa; this is to say, equimolar counter-diffusion is occurring. Secondly, by nature of the first assumption, at each stage and consequently, for every stage in the distillation column, a saturated vapor-liquid equilibrium is established and thirdly, under steady-state conditions of the continuous distillation column it may be rationalized that the molar heats of vaporization are approximately constant in conjunction with the first assumption we can now assume that the molar flow rates and compositions of the liquid and vapor phases are nearly constant and equal in each section of the column. The previously stated assumptions may be mathematically represented in the following rationale:
+\begin{equation}
+\frac{V_i}{L_{i-1}} = \frac{({O+1})}{O}
+\label{eq1}
+\end{equation} 
+
+\begin{equation}
+y_i = \frac{O}{({O+1})}x_{i-1} + \frac{x_p}{({O+1})}
+\label{eq2}
+\end{equation}   
+\begin{equation}
+yi = \frac{(O + F )}{(O + 1)}x_{i-1} + \frac{(1 - F)}{(O + 1)}x_w
+\label{eq3}
+\end{equation}
+\begin{equation}
+V_{i+1} - V_i + L_{{i-1}} - L_i = 0 = \frac{dM_i}{dt}
+\label{eq4}
+\end{equation}
+\begin{equation}
+    y_{i+1}V_{i+1}-y_iV_i+x_{i-1}L_{i-1}-xL_i = 0 = \frac{dx_iM_i}{dt}
+    \label{eq5}
+\end{equation}
+From Equation 1, the assumption of equal vaporization to condensation rates are related to the operating feed rate of the reactor, O, which allows for Equation 2 and Equation 3 to quantitively define the mol fractional composition of the vapor phase, y, and liquid phase. x, for the volatile compound, i, water, w, and F represents the molar flux of the feed per mol of product, respectively. If steady state and the rate of vaporization, V, and rate of condensation, L, is the same; which is to say, the change over time is 0 (see Equation 4) then, it can be rationalized that the compositional change in both the vapor and liquid phases are the same as represented in Equation 5. This also satisfies the second assumption of vapor-liquid equilibrium for an ideal plate such that the relationship between x and y is known on each plate. The operating conditions of feed temperature, feed rate, reflux ratio and steady state conditions can be experimentally determined however, in order to obtain known quantities of distillate composition, waste composition and feed compositions for the liquid and vapor phase, a hydrometer must be used as per government regulation. Contemporary methods of determining compositions involve obtaining the density and temperatures of the sample and correcting for thermal affects prior to using TTB tables can be done using the following equation: 
+\begin{equation}
+    \rho_2 = \rho_1 (1 + \alpha (T_1 - 60\degree F))
+    \label{eq6}
+\end{equation}
+In order to use TTB standardized hydrometer table values, the experimentally obtained densities; denoted by $\rho$, and temperatures must be corrected to standard operating temperatures of 60 $\degree$ F with $\alpha$= \( 25x10^{-6}\)\degree C; the thermal expansivity coefficient for the glass comprising a hydrometer. Using this corrected density-temperature relationship, this value can be correlated to a specific gravity of water at 60 $\degree$ F under vacuum conditions to back solve an interpolated a true proof value for use in taxation purposes; mol fraction, mass fraction may also be determined at reference temperature (60 F) once Equation 6 has been solved. See supplementary information for the “trueProof” function denoted in MATLAB that numerically solves for the composition, mol and mass fraction of the volatile component in solution. These equations dictate the McCabe Thiele graph characteristics where Equation 2 is the rectifying line, Equation 3 is the stripping line and the second assumption of the McCabe Thiele method assumes the q-line slope is 1 (vertical) for a saturated vapor-liquid equilibrium composition of the feed composition. See discussions below for more information regarding experimental conditions that could affect the theoretical number of plates from the McCabe Thiele method.
+
+\subsection{\textbf{Objective}}
+In this experiment, conditions necessary to fulfil the McCabe Thiele graph will be experimentally determined and provide an opportunity to operate a continuous distillation column to understand the effects of reflux ratios, feed rates, reboiler power, mass balance and examine steady state conditions on equations 1 through 5 as well as the resulting McCabe Thiele graph. Further, to develop an understanding of contemporary methods to analyze the taxation of ethanol-water mixtures. The results from this experiment will offer insight to propose answers to the research question, “How can one optimize an experimental distillation column based on the theoretical trays from the McCabe Thiele method? What conditions can be made to match the number of theoretical trays to experimental trays for a tray efficiency of 100\%?”. We hypothesize low feed rate, feed concentrations near 0.5 liquid mol fraction to optimize the separation of an ethanol-water mixture for an 8-tray distillation column.
+\begin{center}
+\begin{table}
+\centering            
+\caption{Commercial units of alcohol concentrations by volume as defined by TTB}
+{\tabulinesep =1.2mm
+\begin{tabu} {|p{1cm}|p{5in}|}
+% \begin{tabular}{|p{1cm}|p{6in}|}
+    \hline
+     Tralle & Percentage of Alcohol by Volume (ABV) at a specific reference temperature, 60 \degree F in the US and 20 \degree C elsewhere \\
+     \hline
+     Proof & Two times Tralle:  a 100 \degree P spirit is 50 volume \%, at the reference temperature. \\
+     \hline
+     UK Proof & \(\frac{7}{4}\)  times  Tralle:  a  100  volume  percent  spirit  is 175 proof UK. Not in current use. \\
+     \hline
+     ABV & alcohol by volume:  same as Tralle.\\
+     \hline
+    \end{tabu}}
+% \end{tabular}
+\end{table}
+\end{center}
+
+\section{Experimental Methods}
+\subsection{\textbf{Determining true proof using Pycnometer versus Density-O-Meter}}
+\subsubsection{\textbf{Experimental Overview}}
+The densities of water-ethanol mixtures are sensitive to temperature and it’s composition changes drastically with temperature. The use of Pycnometry is a method for accurately measuring the densities of water-ethanol mixtures for a relatively cheap apparatus; approximately \$200 USD compared to \$2700 USD density-o-meters. A pycnometer is a glass container with a stopper and cap, designed in such a way as to be to reproducibly fill with a constant volume of liquid within 10\% of error. The pycnometers used in this experiment has three parts: the body, a combined thermometer/stopper, and a cap for the overflow arm. This experiment will be done to provide a comparison of a pycnometer versus a quartz tube density-o-meter. The results from this stage of the experiment will be used to determine the true proof of the distillation process for use in comparing the cost effectiveness of commercially available alcoholic beverages at their respected ethanol content by volume (proof) to the experimentally separated mixture. Further, provide a basis for understanding the relationships between mass fraction, mole fraction, and density of solutions and how these physical properties are affected by temperature.
+\subsubsection{\textbf{Procedure}}
+The pycnometer was preliminarily rinsed with pure ethanol, cleaned, dried by pressurized air and finally, the surfaces were wiped dry with a kim-wipe. Once completely dried, the clean pycnometer was weighed on an analytical balance. The pycnometer was placed on top of paper towels followed by filing the flask with deionized water halfway up the neck. The apparatus was gently tapped from the flask to remove air bubbles. The thermometer was slowly inserted into the flask; paying close attention to the water’s surface tension being formed at the end of the side arm. The stopper was placed onto the side arm. The entire outer surface of the apparatus was wiped surface dry; close attention was paid to the liquid at the flask neck-stopper interface. The pycnometer filled with deionized water was placed back on analytical balance and noted the weight. Prepared 50 mL conical tubes of varying compositional by mass changes. See Table 2 for composition by mass prepared. Used density-o-meter to record temperature and density. Then, the Pycnometer was filled with the sample ethanol-water mixture; starting from least ethanol concentration to increasing ethanol composition. The temperature and mass values of the pycnometer containing ethanol-water mixture were recorded. For each iterative ethanol-water mixture used, the pycnometer containing the previous sample was decanted into a waste beaker and filled with the next sample after obtaining and recording density-o-meter readings. After the experiment, the waste container of ethanol-water mixtures was properly collected to the designated ethanol-water container located in the fume hood in the laboratory. The pycnometer was wiped dry and let air dry for the subsequent laboratory session. The experimental data was used to derive a working equation for the pycnometer expressing density as a function of (${\rho_w}$,$,M_w$, $M_f$). Where ${\rho_f}$ is the calculated fluid density (g/mL), ${\rho_w}$ is the density of water (a function of temperature), ${M_e}$ is the mass of the empty pycnometer, ${M_w}$ is the mass of the pycnometer (g) and ${M_f}$ is the mass of the pycnometer filled with the ethanol-water mixture (g).
+\begin{equation}    
+    \rho_f = \rho_w(\frac{M_f - M_e}{M_w - M_e})
+\label{equation 7}
+\end{equation}
+See supplementary information for full derivation of Equation 7 . Based on TTB true proof and specific gravity values, a function was made in MATLAB to interpolate experimental values of density and temperatures to correct for gauging alcohol concentrations by proof via standardized hydrometer tables provided by TTB. Refer to MATLAB code and supplementary information regarding the “trueProof” MATLAB function that was prepared fo used to calculate the mol fraction and true proof values of ethanol in solution based on the temperature and density of the experimental conditions. See Figure 11, Figure 11.1, Figure 12 and Figure 12.1 for graphical comparison of pycnometer versus density-o-meter in supplementary information from this experiment.
+
+\subsection{\textbf{Operating Distillation Column}}
+\subsubsection[]{\textbf{Experimental Overview}}
+Continuous distillation is one of the most important unit operations used in petroleum refining, chemical manufacturing, and the alcoholic beverage industry. In this experiment, the distillation apparatus will be used to separate an unknown binary mixture of ethanol and water for use in determining the necessary conditions to satisfy the McCabe Thiele graph for a distillation column consisting of eight (8) trays. 
+\subsubsection[]{\textbf{Procedure}}
+The support staff of the laboratory session preset the following conditions of the Armfield console; as seen in Table 2, using the console for the Armfield: UOP3BM Distillation column as shown in Figure 2(a). After some time, the steady state condition was achieved once the temperature variation throughout the apparatus behaves as seen in Figure 2(b). Throughout operation, the amount of liquid contained in the reboiler was maintained manually. At the time of startup to steady state operation, the initially collected waste and distillate during this period of time was discarded. A container for the distillate and waste were respectfully weighed using an analytical balance and collection of the respected samples were timed for 5 minutes (300 seconds) then allowed to cool as the laboratory session allowed. Samples were cooled to 30°C or a lower before using the densitometer to avoid damaging the instrument. The data from this steady state run from the software, Figure 2(b)., was saved and exported as an excel sheet for further analysis.
+
+\begin{center}
+    \begin{table}
+    \centering            
+    \caption{Column distillation settings on UOP3BM console}
+    {\tabulinesep =1.2mm
+    \begin{tabu} {|p{2in}|p{0.5in}|}
+    \hline
+    Condition & \\
+    \hline
+    Reflux Ratio & 4.0 \\
+    \hline
+    Reboiler Heater Power (kW) & 0.8\\
+    \hline
+    Feed Pump Number & 3.0\\
+    \hline
+    Condenser Water Flow Rate (cc/min) & 500\\
+    \hline
+    Cooling Unit (Centigrade) & 18.0\\
+    \hline
+    \end{tabu}}
+    % \end{tabular}
+    \end{table}
+\end{center}
+
+\begin{figure}[]
+    % Reference https://tex.stackexchange.com/questions/53320/placement-of-graphics-in-a-triangular-orientation
+    \centering
+    \subfloat[\paperwidth][Console used to configure settings on UOP3BM column distillation apparatus ]{\includegraphics[]{ReplicatingReport/Picture4.png}\label{fig:a}}\hspace{1em}
+    \subfloat[\paperwidth][Sensor output and graphical representation of temperature readings throughout the distillation apparatus (see Figure 5) for a sample rate every 10 seconds; collection rate unknown]{\includegraphics[]{ReplicatingReport/Picture5.png}\label{fig:b}}
+    \caption{Control Console and Corresponding graphical representation of temperature data throughout distillation column to determine steady state conditions}
+    \label{fig1}
+\end{figure}
+
+\begin{figure}
+    \centering
+   \includegraphics[]{ReplicatingReport/Picture6.png}
+    \caption{Distillation apparatus and schematic of the UOP3CC distillation column apparatus used to separate an unknown composition mixture of ethanol and water ranging from 10-15\% (Volume/Volume) composition. See Table 2 or Table 3 for console specification}
+\end{figure}
+After collecting experimental data, a schematic of the distillation column was created; as seen in Figure 5 and the Construction of McCabe Thiele was created. See supplementary information for step-by-step procedural notes on how this was done. This procedure was repeated twice more using different conditions for a total of three data sets. However, for one dataset, the following preset conditions were prescribed in Table III.
+
+\begin{center}
+    \begin{table}
+    \centering            
+    \caption{Column settings from the first week of data collection}
+    {\tabulinesep =1.2mm
+    \begin{tabu} {|p{2in}|p{0.5in}|}
+    \hline
+    Condition & \\
+    \hline
+    Reflux Ratio & 2.0 \\
+    \hline
+    Reboiler Heater Power (kW) & 0.9\\
+    \hline
+    Feed Pump Number & 4.0\\
+    \hline
+    Condenser Water Flow Rate (cc/min) & 1300\\
+    \hline       
+    \end{tabu}}
+    % \end{tabular}
+    \end{table}
+\end{center}
+
+\begin{center}
+    \LARGE End of Sample Text 
+\end{center}
+
+\newcommand{\nomunit}[1]{%
+\renewcommand{\nomentryend}{\hspace*{\fill}#1}}
+\nomenclature{$T$}{Temperature
+    \nomunit{$\degree C$}}
+\nomenclature{$\dot{V}$}{Rate of vaporization
+    \nomunit{$\frac{{x_i}}{{y_i s}}$}}
+\nomenclature{$\dot{L}$}{Rate of condensation
+    \nomunit{$\frac{{y_i}}{{x_i s}}$}}
+\nomenclature{$O$}{Operating rate; feed rate, mol of unknown 10-15\% percent ethanol-water mixture}
+\nomenclature{$M$}{Molar mass
+    \nomunit{$\frac{g}{mol}$}}
+\nomenclature{$\alpha$}{Thermal expansion coefficient }
+\nomenclature{$USD$}{United states dollar}
+\nomenclature{$M_f$}{Mass of wet pycnometer filled with known mass composition of ethanol-water mixture
+    \nomunit{$g$}}  
+\nomenclature{$M_w$}{Mass of wet pycnometer filled with deionized water
+    \nomunit{$g$}}
+\nomenclature{$M_e$}{Mass of the dry empty pycnometer
+    \nomunit{$g$}}
+\nomenclature{$V$}{Volume of the pycnometer
+    \nomunit{$mol$}}
+\nomenclature{$\rho$}{Density
+    \nomunit{$\frac{g}{mL}$}}
+\nomenclature{$L_i$}{Mole flux of liquid leaving plate i, per mole of product}
+\nomenclature{$M_i$}{Number of moles of fluid on plate i
+    \nomunit{$mol$}}
+\nomenclature{$N$}{Number of ideal plates}
+\nomenclature{$V_i$}{Mole flux of vapor leaving plate i, per mole of product
+    \nomunit{$\frac{mol}{{cm^2$}}}}
+\nomenclature{$W$}{Molar flux of waste per mole product
+    \nomunit{$\frac{mol}{{cm^2}s$}}}
+\nomenclature{$x_i$}{Mole fraction of volatile component in liquid Li}
+\nomenclature{$x_F$}{Mole fraction of volatile component in feed}
+\nomenclature{$x_P$}{Mole fraction of volatile component in product}
+\nomenclature{$x_W$}{Mole fraction of volatile component in waste}
+\nomenclature{$y_i$}{Mole fraction of volatile component in vapor {V_i}}
+\clearpage % jump to next page
+\printnomenclature
+
+\end{document}
